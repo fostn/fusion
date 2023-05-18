@@ -13,9 +13,10 @@ Fusion is a command-line tool designed to simplify the management and execution 
 
 ## Installation
 
-1. Clone the Fusion repository to your local machine:
+1 Clone the Fusion repository to your local machine:
 
    ```shell
    git clone https://github.com/your-username/fusion.git
-
-
+  
+2  Navigate to the Fusion project directory:
+``shell
