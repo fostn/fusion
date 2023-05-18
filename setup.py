@@ -10,6 +10,6 @@ setup(
         ]
     },
     install_requires=[
-        "requests","blessed","pexpect"
+        "requests","blessed","pexpect","colorama"
     ],
 )
