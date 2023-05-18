@@ -32,3 +32,7 @@ pip install .
 ```
 fusion
 ```
+
+That's it! You have successfully installed Fusion on your machine. Now you can proceed to the Usage section to learn how to use Fusion for managing and executing your Python projects.
+
+Note: If you encounter any issues during the installation process, make sure you have Python and pip installed on your system, and that they are added to your system's PATH.
