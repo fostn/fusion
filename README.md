@@ -22,5 +22,13 @@ git clone https://github.com/your-username/fusion.git
 ```
 2 Navigate to the Fusion project directory:
 ```
-Navigate to the Fusion project directory:
+cd Fusion
+```
+3 Install the required dependencies:
+```
+pip install .
+```
+## Usage
+```
+fusion
 ```
