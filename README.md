@@ -18,11 +18,11 @@ To install and use Fusion, follow these steps:
 1 Clone the Fusion repository to your local machine:
 
 ```
-git clone https://github.com/your-username/fusion.git
+git clone https://github.com/fostn/fusion
 ```
 2 Navigate to the Fusion project directory:
 ```
-cd Fusion
+cd fusion
 ```
 3 Install the required dependencies:
 ```
