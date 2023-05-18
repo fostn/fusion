@@ -5,22 +5,29 @@ import subprocess
 from ui.menu import Menu
 from blessed import Terminal
 import pexpect
+
 class Packager:
     def __init__(self, main_menu):
         self.main_menu = main_menu
-        self.menu = Menu([], parent_menu=self.main_menu,numbered=True)
+        self.menu = None
         self.terminal = Terminal()
         self.run()
 
+    def get_packages_path(self):
+        current_path = os.getcwd()
+        packages_path = os.path.join(current_path, "Packages")
+        return packages_path
+
     def get_folders(self):
-        current_path = os.path.join(os.getcwd(), "Packages")
-        if not os.path.exists(current_path):
+        packages_path = self.get_packages_path()
+        if not os.path.exists(packages_path):
             return []
-        folders = [name for name in os.listdir(current_path) if os.path.isdir(os.path.join(current_path, name))]
+        folders = [name for name in os.listdir(packages_path) if os.path.isdir(os.path.join(packages_path, name))]
         return folders
 
     def select_folder(self, folder):
-        folder_path = os.path.join(os.getcwd(), "Packages", folder)
+        packages_path = self.get_packages_path()
+        folder_path = os.path.join(packages_path, folder)
         json_file_path = os.path.join(folder_path, "Fusion.json")
 
         if not os.path.exists(json_file_path):
@@ -41,12 +48,8 @@ class Packager:
                         main_file_path = os.path.join(folder_path, main_file)
                         if os.path.exists(main_file_path):
                             # Run the main Python file in a separate process and wait for it to finish
-                            os.chdir(folder_path)
                             process = pexpect.spawn("python", [main_file_path])
                             process.interact()
-                            os.chdir(os.getcwd())
-
-                            
                         else:
                             print("Main Python file not found.")
                     else:
@@ -59,6 +62,7 @@ class Packager:
         input()
         self.menu.start()
 
+
     def set_main_file(self, folder_path, file):
         json_file_path = os.path.join(folder_path, "Fusion.json")
         data = {"main": file}
@@ -66,9 +70,13 @@ class Packager:
             json.dump(data, file)
         print(f"Fusion.json file created with main file: {file}")
 
-    def run(self):
+    def update_menu(self):
+        self.menu = Menu([], parent_menu=self.main_menu, numbered=True)  # Initialize an empty menu
         folders = self.get_folders()
         options = [[folder, lambda folder=folder: self.select_folder(folder)] for folder in folders]
         options.append(["Back", self.menu.start])
         self.menu.options = options
+
+    def run(self):
+        self.update_menu()  # Update the menu options initially
         self.menu.start()
