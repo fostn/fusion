@@ -36,7 +36,7 @@ fusion
 
 Once you have launched Fusion, you can use the menu system to navigate through different options and perform actions. The main menu allows you to select packages, execute Python files, manage dependencies, and access other functionalities provided by Fusion.
 
-#Package Management
+##Package Management
 Select a package to explore its contents and execute files within the package.
 
 #Execution of Python Files
