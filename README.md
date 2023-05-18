@@ -29,10 +29,32 @@ cd Fusion
 pip install .
 ```
 ## Usage
+To run Fusion, use the following command:
 ```
 fusion
 ```
 
-That's it! You have successfully installed Fusion on your machine. Now you can proceed to the Usage section to learn how to use Fusion for managing and executing your Python projects.
+Once you have launched Fusion, you can use the menu system to navigate through different options and perform actions. The main menu allows you to select packages, execute Python files, manage dependencies, and access other functionalities provided by Fusion.
 
-Note: If you encounter any issues during the installation process, make sure you have Python and pip installed on your system, and that they are added to your system's PATH.
+#Package Management
+Select a package to explore its contents and execute files within the package.
+
+#Execution of Python Files
+If a package contains a Fusion.json file with a specified main file, Fusion will automatically execute that file. Otherwise, it will prompt you to select the main file from the available options.
+
+#Interactive Input
+When executing a Python file, Fusion supports interactive input. You can enter values and interact with the script directly from the command line.
+
+#Download System
+Fusion provides a download system that allows you to retrieve files from remote sources. You can specify a URL and destination path to download files directly from the internet.
+
+#Contributing
+Contributions to Fusion are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request. See CONTRIBUTING.md for more information on how to contribute to the project.
+
+#License
+This project is licensed under the MIT License. Feel free to use, modify, and distribute this code as per the terms of the license.
+
+Acknowledgments
+The Fusion tool was developed to simplify Python project management and execution.
+
+Special thanks to the open-source community for their contributions and support.
