@@ -52,7 +52,7 @@ Fusion provides a download system that allows you to retrieve files from remote 
 Contributions to Fusion are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request. See CONTRIBUTING.md for more information on how to contribute to the project.
 
 # License
-This project is licensed under the MIT License. Feel free to use, modify, and distribute this code as per the terms of the license.
+This project is licensed Feel free to use, modify, and distribute this code as per the terms of the license.
 
 Acknowledgments
 The Fusion tool was developed to simplify Python project management and execution.
