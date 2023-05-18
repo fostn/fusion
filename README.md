@@ -15,13 +15,12 @@ Fusion is a command-line tool designed to simplify the management and execution 
 
 To install and use Fusion, follow these steps:
 
-1. Clone the Fusion repository to your local machine:
+1 Clone the Fusion repository to your local machine:
 
 ```
-gem install github-markup
+git clone https://github.com/your-username/fusion.git
 ```
-
-   ```shell
-   git clone https://github.com/your-username/fusion.git
+2 Navigate to the Fusion project directory:
 ```
-
+Navigate to the Fusion project directory:
+```
