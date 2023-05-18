@@ -29,6 +29,8 @@ class Packager:
             options = [[file, lambda file=file: self.set_main_file(folder_path, file)] for file in files]
             options.append(["Back", self.menu.start])
             self.menu.options = options
+            print("Please select the main file:")
+            time.sleep(3)
             self.menu.start()
         else:
             with open(json_file_path, "r") as file:
