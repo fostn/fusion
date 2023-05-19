@@ -35,7 +35,7 @@ To run Fusion, use the following command:
 fusion
 ```
 
-Once you have launched Fusion, you can use the menu system to navigate through different options and perform actions. The main menu allows you to select packages, execute Python files, manage dependencies, and access other functionalities provided by Fusion.
+Once you have launched Fusion, you can use the menu system to navigate through different options and perform actions. The main menu allows you to select packages, execute Python files, execute Java, C, C++, or C# code, manage dependencies, delete files, and access other functionalities provided by Fusion
 
 ## Package Management
 Select a package to explore its contents and execute files within the package.
