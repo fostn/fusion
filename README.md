@@ -11,7 +11,7 @@ Fusion is a command-line tool designed to simplify the management and execution 
 - **Interactive Input:** Fusion supports interactive input, allowing users to enter input values and interact with the executed Python files directly from the command line.
 - **Seamless Integration:** Fusion seamlessly integrates with the command line environment, providing a clean and user-friendly interface for improved productivity.
 - **Download System:** Fusion includes a download system that allows you to retrieve files from remote sources. You can specify a URL and destination path to download files directly from the internet, making it convenient to fetch resources or dependencies for your projects.
-- **Deletion Option: Fusion now provides the ability to delete files and directories, allowing you to manage your project's structure more efficiently.
+- **Deletion Option:** Fusion now provides the ability to delete files and directories, allowing you to manage your project's structure more efficiently.
 ## Installation
 
 To install and use Fusion, follow these steps:
