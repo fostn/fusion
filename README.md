@@ -42,13 +42,15 @@ Select a package to explore its contents and execute files within the package.
 
 # Execution of Python Files
 If a package contains a Fusion.json file with a specified main file, Fusion will automatically execute that file. Otherwise, it will prompt you to select the main file from the available options.
-
+# Execution of Java, C, C++, C# Code
+Fusion now supports executing Java, C, C++, and C# code. You can provide the path to the code file, and Fusion will compile and run the code for you.
 # Interactive Input
 When executing a Python file, Fusion supports interactive input. You can enter values and interact with the script directly from the command line.
 
 # Download System
 Fusion provides a download system that allows you to retrieve files from remote sources. You can specify a URL and destination path to download files directly from the internet.
-
+# Deletion Option
+Fusion now allows you to delete files and directories directly from the tool, providing a convenient way to manage your project's structure.
 # Contributing
 Contributions to Fusion are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request. See CONTRIBUTING.md for more information on how to contribute to the project.
 
