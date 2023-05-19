@@ -26,10 +26,9 @@ class Fusion:
             ["Exit", lambda: exit()]
         ], logo=logo)
 
-        # Start the main menu
+      
         main_menu.set_message( "Welcome to Fusion! Please make a selection.")
-        
-        #main_menu.set_message("Welcome to the Fusion Please make a selection.")
+       
         main_menu.start()
 
 
