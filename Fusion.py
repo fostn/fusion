@@ -1,6 +1,8 @@
 from ui.menu import Menu
 from download.downloader import Downloader
 from Packages.packager import Packager
+from Packages.Deleter import Deleter
+import colorama
 import pkg_resources
 import json
 
@@ -20,10 +22,14 @@ class Fusion:
         main_menu = Menu([
             ["Downloader", lambda: Downloader(main_menu=main_menu)],
             ["Packages", lambda: Packager(main_menu=main_menu)],
+            ["Delete Package",lambda: Deleter(main_menu=main_menu)],
             ["Exit", lambda: exit()]
         ], logo=logo)
 
         # Start the main menu
+        main_menu.set_message( "Welcome to Fusion! Please make a selection.")
+        
+        #main_menu.set_message("Welcome to the Fusion Please make a selection.")
         main_menu.start()
 
 

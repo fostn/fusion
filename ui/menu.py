@@ -10,6 +10,8 @@ class Menu:
         self.parent_menu = parent_menu
         self.main_menu = main_menu
         self.numbered = numbered
+        self.message = None
+        self.color = None
     def create_gradient_logo(self):
         gradient_logo = ""
         gradient_step = 255 // (len(self.logo.splitlines()) - 1)
@@ -35,6 +37,9 @@ class Menu:
                     print(self.term.reverse(f'{self.term.bold_green}{item[0]:<5}'))
                 else:
                     print(f'{self.term.normal}{item[0]:<15}')
+        if self.message:
+            print(f"\n{self.color}{self.message}{self.term.normal}")
+
     def run_selection(self):
         action = self.options[self.selection][2]
         if action:
@@ -99,6 +104,12 @@ class Menu:
 
             return input_text
 
+    def set_message(self, message,color=""):
+        self.message = message
+        self.color = color
+
+    def clear_message(self):
+        self.message = ""
     def start(self):
         with self.term.fullscreen(), self.term.cbreak():
             while True:

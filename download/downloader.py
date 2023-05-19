@@ -3,6 +3,7 @@ import os
 import time
 import requests
 from ui.menu import Menu
+import colorama
 
 class Downloader:
     def __init__(self, main_menu):
@@ -11,6 +12,7 @@ class Downloader:
             ["Download Repository", self.select_repository],
             ["Back", self.exit_action]
         ], main_menu=self.main_menu)
+          self.menu.set_message('Download repositories from github by username',color=colorama.Fore.GREEN)
           self.menu.start()
 
     def select_repository(self):
@@ -21,7 +23,7 @@ class Downloader:
             repositories = response.json()
             options = [[repo["name"], lambda repo=repo: self.download_repository(repo["html_url"])] for repo in repositories]
             options.append(["Back", self.menu.start])
-            repo_menu = Menu(options, parent_menu=self.menu)
+            repo_menu = Menu(options, parent_menu=self.menu,numbered=True)
             repo_menu.start()
         else:
             print(f"Failed to fetch repositories for '{username}'.")

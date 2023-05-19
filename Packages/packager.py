@@ -1,16 +1,17 @@
 import os
 import json
 import time
-import subprocess
 from ui.menu import Menu
 from blessed import Terminal
 import pexpect
-
+from .FileExecutor import FileExecutor
+import colorama
 class Packager:
     def __init__(self, main_menu):
         self.main_menu = main_menu
         self.menu = None
         self.terminal = Terminal()
+        self.FileExecutor = FileExecutor()
         self.run()
 
     def get_packages_path(self):
@@ -48,14 +49,27 @@ class Packager:
                         main_file_path = os.path.join(folder_path, main_file)
                         if os.path.exists(main_file_path):
                             # Run the main Python file in a separate process and wait for it to finish
-                            process = pexpect.spawn("python", [main_file_path])
-                            process.interact()
+                            execution_command = FileExecutor.get_execution_command(main_file_path)
+                            if execution_command:
+                                try:
+                                    process = pexpect.spawn(execution_command)
+                                    process.interact()
+                                except pexpect.ExceptionPexpect as e:
+                                    print(f"Error executing file: {e}")
+                                    time.sleep(2)
+                            else:
+                                print("Execution command not available.")
+                                time.sleep(2)
+                            
                         else:
                             print("Main Python file not found.")
+                            time.sleep(2)
                     else:
                         print("No 'main' key found in Fusion.json.")
+                        time.sleep(2)
                 except json.JSONDecodeError:
-                    print("Error parsing Fusion.json.")
+                    print("Error parsing Fusion.json")
+                    time.sleep(2)
 
         time.sleep(3)
         print("Press enter to get back...")
@@ -66,9 +80,11 @@ class Packager:
     def set_main_file(self, folder_path, file):
         json_file_path = os.path.join(folder_path, "Fusion.json")
         data = {"main": file}
-        with open(json_file_path, "w") as file:
-            json.dump(data, file)
-        print(f"Fusion.json file created with main file: {file}")
+        with open(json_file_path, "w") as json_file:
+            json.dump(data, json_file)
+        print(f"Main file '{file}' has been set for the package.\ngo back to the pacakges to run it")
+        time.sleep(3)
+
 
     def update_menu(self):
         self.menu = Menu([], parent_menu=self.main_menu, numbered=True)  # Initialize an empty menu
@@ -79,4 +95,5 @@ class Packager:
 
     def run(self):
         self.update_menu()  # Update the menu options initially
+        self.menu.set_message('Run installed packages and dependencies.',color=colorama.Fore.LIGHTYELLOW_EX)
         self.menu.start()

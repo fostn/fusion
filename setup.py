@@ -1,7 +1,7 @@
 from setuptools import setup,find_packages
 setup(
     name="fusion",
-    version="1.0",
+    version="1.2.0",
     py_modules=["Fusion"],
     packages=find_packages(),
     entry_points={
@@ -10,6 +10,6 @@ setup(
         ]
     },
     install_requires=[
-        "requests","blessed","pexpect","colorama"
+        "requests","blessed","pexpect"
     ],
 )
