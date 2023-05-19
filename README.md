@@ -52,7 +52,7 @@ Fusion provides a download system that allows you to retrieve files from remote 
 # Deletion Option
 Fusion now allows you to delete files and directories directly from the tool, providing a convenient way to manage your project's structure.
 # Contributing
-Contributions to Fusion are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request. See CONTRIBUTING.md for more information on how to contribute to the project.
+Contributions to Fusion are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request.
 
 # License
 This project is licensed Feel free to use, modify, and distribute this code as per the terms of the license.
