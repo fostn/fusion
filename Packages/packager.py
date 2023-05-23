@@ -52,7 +52,7 @@ class Packager:
                             os.chdir(folder_path)
 
                             # Run the main Python file in a separate process and wait for it to finish
-                            execution_command = FileExecutor.get_execution_command(main_file_path)
+                            execution_command = FileExecutor.get_execution_command(main_file_path, folder_path)
                             if execution_command:
                                 try:
                                     process = pexpect.spawn(execution_command)
@@ -81,6 +81,7 @@ class Packager:
 
 
     def set_main_file(self, folder_path, file):
+        folder_path = os.path.abspath(folder_path)
         json_file_path = os.path.join(folder_path, "Fusion.json")
         data = {"main": file}
         with open(json_file_path, "w") as json_file:
@@ -100,4 +101,5 @@ class Packager:
         self.update_menu()  # Update the menu options initially
         self.menu.set_message('Run installed packages and dependencies.',color=colorama.Fore.LIGHTYELLOW_EX)
         self.menu.start()
+
 
