@@ -48,6 +48,9 @@ class Packager:
                     if main_file:
                         main_file_path = os.path.join(folder_path, main_file)
                         if os.path.exists(main_file_path):
+                            # Change the current working directory to the folder path
+                            os.chdir(folder_path)
+
                             # Run the main Python file in a separate process and wait for it to finish
                             execution_command = FileExecutor.get_execution_command(main_file_path)
                             if execution_command:
@@ -97,3 +100,4 @@ class Packager:
         self.update_menu()  # Update the menu options initially
         self.menu.set_message('Run installed packages and dependencies.',color=colorama.Fore.LIGHTYELLOW_EX)
         self.menu.start()
+
