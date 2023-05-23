@@ -7,7 +7,7 @@ class FileExecutor:
     def get_execution_command(file_path):
         _, file_extension = os.path.splitext(file_path)
         if file_extension == ".py":
-            return f"python {file_path}"
+            return f"python3 {file_path}"
         elif file_extension == ".java":
             return f"java {file_path}"
         elif file_extension == ".c":
