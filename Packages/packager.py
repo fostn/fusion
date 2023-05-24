@@ -1,105 +1,85 @@
-import os
-import json
-import time
 from ui.menu import Menu
-from blessed import Terminal
-import pexpect
+import os
+import time
 from .FileExecutor import FileExecutor
-import colorama
+import json
+from colorama import Fore
 class Packager:
     def __init__(self, main_menu):
         self.main_menu = main_menu
         self.menu = None
-        self.terminal = Terminal()
-        self.FileExecutor = FileExecutor()
-        self.run()
+        self.packages_path = self.get_packages_path()
+        self.start()
 
     def get_packages_path(self):
-        current_path = os.getcwd()
-        packages_path = os.path.join(current_path, "Packages")
-        return packages_path
+        current_dir = os.getcwd()
+        return os.path.join(current_dir, "Packages")
 
     def get_folders(self):
-        packages_path = self.get_packages_path()
-        if not os.path.exists(packages_path):
-            return []
-        folders = [name for name in os.listdir(packages_path) if os.path.isdir(os.path.join(packages_path, name))]
+        folders = []
+        for item in os.listdir(self.packages_path):
+            item_path = os.path.join(self.packages_path, item)
+            if os.path.isdir(item_path):
+                folders.append(item)
         return folders
 
     def select_folder(self, folder):
-        packages_path = self.get_packages_path()
-        folder_path = os.path.join(packages_path, folder)
-        json_file_path = os.path.join(folder_path, "Fusion.json")
+        folder_path = os.path.join(self.packages_path, folder)
+        self.menu.set_message(f"Folder Path: {folder_path}")
+        self.menu.clear_message()
 
-        if not os.path.exists(json_file_path):
-            # Create the Fusion.json file and prompt the user to select the main file
-            files = os.listdir(folder_path)
-            options = [[file, lambda file=file: self.set_main_file(folder_path, file)] for file in files]
-            options.append(["Back", self.menu.start])
-            self.menu.options = options
-            print("Please select the main file:")
-            time.sleep(3)
-            self.menu.start()
+        # Check if Fusion.json exists in the selected folder
+        fusion_json_path = os.path.join(folder_path, "Fusion.json")
+        if os.path.isfile(fusion_json_path):
+            with open(fusion_json_path, "r") as f:
+                fusion_config = json.load(f)
+            main_file = fusion_config.get("main")
+
+            if main_file:
+                main_file_path = os.path.join(folder_path, main_file)
+
+                # Execute the main file using FileExecutor
+                executor = FileExecutor()
+                execution_command = executor.get_execution_command(main_file_path, folder_path)
+                if execution_command:
+                    os.system(execution_command)
+                    time.sleep(3)
+                else:
+                    self.menu.set_message("Invalid file extension.", color=Fore.LIGHTRED_EX)
+            else:
+                self.menu.set_message("No main file specified in Fusion.json.", color=Fore.LIGHTRED_EX)
         else:
-            with open(json_file_path, "r") as file:
-                try:
-                    data = json.load(file)
-                    main_file = data.get("main")
-                    if main_file:
-                        main_file_path = os.path.join(folder_path, main_file)
-                        if os.path.exists(main_file_path):
-                            # Change the current working directory to the folder path
-                            os.chdir(folder_path)
+            self.menu.clear_message()
+            options = [[f, lambda f=f: self.select_main_file(f, folder_path)] for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f))]
+            options.append(["Back", self.update_menu])
+            self.menu = Menu(options, parent_menu=self.main_menu)
+            self.menu.set_message("Fusion.json not found. Select a main file:",color=Fore.LIGHTRED_EX)
+            self.menu.start()
 
-                            # Run the main Python file in a separate process and wait for it to finish
-                            execution_command = FileExecutor.get_execution_command(main_file_path, folder_path)
-                            if execution_command:
-                                try:
-                                    process = pexpect.spawn(execution_command)
-                                    process.interact()
-                                except pexpect.ExceptionPexpect as e:
-                                    print(f"Error executing file: {e}")
-                                    time.sleep(2)
-                            else:
-                                print("Execution command not available.")
-                                time.sleep(2)
-                            
-                        else:
-                            print("Main Python file not found.")
-                            time.sleep(2)
-                    else:
-                        print("No 'main' key found in Fusion.json.")
-                        time.sleep(2)
-                except json.JSONDecodeError:
-                    print("Error parsing Fusion.json")
-                    time.sleep(2)
+    def select_main_file(self, main_file, folder_path):
+        # Update Fusion.json with the selected main file
+        fusion_json_path = os.path.join(folder_path, "Fusion.json")
+        fusion_config = {"main": main_file}
+        with open(fusion_json_path, "w") as f:
+            json.dump(fusion_config, f)
+
+        # Execute the main file using FileExecutor
+        main_file_path = os.path.join(folder_path, main_file)
+        executor = FileExecutor()
+        execution_command = executor.get_execution_command(main_file_path, folder_path)
+        if execution_command:
+            os.system(execution_command)
+        else:
+            self.menu.set_message("Invalid file extension.", color="red")
 
         time.sleep(3)
-        print("Press enter to get back...")
-        input()
         self.menu.start()
-
-
-    def set_main_file(self, folder_path, file):
-        folder_path = os.path.abspath(folder_path)
-        json_file_path = os.path.join(folder_path, "Fusion.json")
-        data = {"main": file}
-        with open(json_file_path, "w") as json_file:
-            json.dump(data, json_file)
-        print(f"Main file '{file}' has been set for the package.\ngo back to the pacakges to run it")
-        time.sleep(3)
-
-
     def update_menu(self):
-        self.menu = Menu([], parent_menu=self.main_menu, numbered=True)  # Initialize an empty menu
         folders = self.get_folders()
         options = [[folder, lambda folder=folder: self.select_folder(folder)] for folder in folders]
-        options.append(["Back", self.menu.start])
-        self.menu.options = options
-
-    def run(self):
-        self.update_menu()  # Update the menu options initially
-        self.menu.set_message('Run installed packages and dependencies.',color=colorama.Fore.LIGHTYELLOW_EX)
+        options.append(["Back", self.main_menu.start])
+        self.menu = Menu(options, parent_menu=self.main_menu)
         self.menu.start()
 
-
+    def start(self):
+        self.update_menu()
