@@ -1,9 +1,10 @@
-from ui.menu import Menu
 import os
 import time
-from .FileExecutor import FileExecutor
 import json
+import pexpect
 from colorama import Fore
+from ui.menu import Menu
+from .FileExecutor import FileExecutor
 class Packager:
     def __init__(self, main_menu):
         self.main_menu = main_menu
@@ -25,8 +26,7 @@ class Packager:
 
     def select_folder(self, folder):
         folder_path = os.path.join(self.packages_path, folder)
-        self.menu.set_message(f"Folder Path: {folder_path}")
-        self.menu.clear_message()
+        
 
         # Check if Fusion.json exists in the selected folder
         fusion_json_path = os.path.join(folder_path, "Fusion.json")
@@ -42,8 +42,11 @@ class Packager:
                 executor = FileExecutor()
                 execution_command = executor.get_execution_command(main_file_path, folder_path)
                 if execution_command:
-                    os.system(execution_command)
-                    time.sleep(3)
+                    child = pexpect.spawn(execution_command, cwd=folder_path)
+                    child.interact()
+                    print("\nPress Enter to go back.")
+                    input()
+                    self.menu.start()
                 else:
                     self.menu.set_message("Invalid file extension.", color=Fore.LIGHTRED_EX)
             else:
