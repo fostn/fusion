@@ -78,7 +78,7 @@ class Packager:
         folders = self.get_folders()
         options = [[folder, lambda folder=folder: self.select_folder(folder)] for folder in folders]
         options.append(["Back", self.main_menu.start])
-        self.menu = Menu(options, parent_menu=self.main_menu)
+        self.menu = Menu(options, parent_menu=self.main_menu,numbered=True)
         self.menu.start()
 
     def start(self):
